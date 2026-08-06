@@ -10,3 +10,7 @@ This repository contains the code and supporting materials used to generate the 
 ├── data               <- Processed data for generating visualizations.
 ├── src                <- Source code for each analysis in the publication.
 ```
+
+## Additional Ways to Explore Our Findings
+
+Please check back soon for details about interactive data visualizations related to this work.
