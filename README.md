@@ -9,5 +9,4 @@ This repository contains the code and supporting materials used to generate the 
 ├── README.md          <- The README for researchers using this repository.
 ├── data               <- Processed data for generating visualizations.
 ├── src                <- Source code for each analysis in the publication.
-
 ```
