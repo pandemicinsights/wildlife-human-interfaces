@@ -16,7 +16,7 @@ https://github.com/pandemicinsights/wildlife-human-interfaces
 a) Multivariable model investigating factors related to detection of coronaviruses paramyxoviruses, flaviviruses, and influenza viruses among bats, rodents, and shrews combined as presented in Figures 1b and 1c and Supplementary Table 2.2.
 ******************************************************************/
 
-melogit cr_rna i_bats i_wet i_feces i_guano i_rectal_anal_swab i_urine dwellings raiding_crops raiding_markets ecotourism wildlife_management guano_farm hunted consumption private_sale transit_along_valuechain for_sale_in_small_market medium_market large_markets zoo_sanctuary|| _all: R.labname, or
+melogit cr_rna i_bats i_wet i_feces i_guano i_rectal_anal_swab i_urine dwellings raiding_crops raiding_markets tourism wildlife_management guano_farm hunted consumption private_sale transit_along_valuechain for_sale_in_small_market medium_market large_markets zoo_sanctuary|| _all: R.labname, or
 
 
 /******************************************************************
