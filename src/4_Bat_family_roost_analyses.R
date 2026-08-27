@@ -1,8 +1,7 @@
-# manuscript: Large-scale One Health surveillance at 
-#             wildlife-human interfaces reveals virus 
-#             spillover risk in wildlife trade supply chains
-# journal: Nature Microbiology
-# analysis: Fig. 1d Model-adjusted odds ratios for virus detection in people (GLMM)
+# manuscript: Johnson et al. 2026. Large-scale One Health surveillance at 
+#             wildlife-human interfaces reveals virus  spillover risk in 
+#             the wildlife trade. Nature Microbiology.
+# analysis: Infection prevalence among bats by preferred roost habitat
 
 # IUCN Redlist Data (v.2022-02) was used to determine bat cave use.
 # The use of caves and similar habitats "cave use" was identified in records 
