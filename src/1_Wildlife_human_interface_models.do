@@ -1,5 +1,5 @@
 /******************************************************************
-This file contain STATA code for replication of analyses from the publication [add details here]. 
+This file contain STATA code for replication of analyses from: Johnson et al. 2026. Large-scale One Health surveillance at wildlife-human interfaces reveals virus  spillover risk in the wildlife trade. Nature Microbiology.
 
 Multivariable statistical analyses to evaluate infection prevalence in animals. Analyses were conducted in STATA (version 16.1, StataCorp, College Station, Texas, USA) using data provided in Source Data 1 “data1_viruses_bats_rodents.csv”. See Methods Section, subheading Analytical Procedures, for more information on factor inclusion criteria and model selection.
 
