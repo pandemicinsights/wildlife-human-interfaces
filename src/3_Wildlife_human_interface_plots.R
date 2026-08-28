@@ -1,7 +1,6 @@
-# manuscript: Large-scale One Health surveillance at 
-#             wildlife-human interfaces reveals virus 
-#             spillover risk in wildlife trade supply chains
-# journal: Nature Microbiology
+# manuscript: Johnson et al. 2026. Large-scale surveillance at 
+#             wildlife-human interfaces reveals virus spillover  
+#             risk in the wildlife trade. Nature Microbiology.
 # analysis: Fig. 1 Plots
 
 # Packages ---------------------------------------------------------------------
@@ -14,18 +13,6 @@ fig1_data = list()
 fig1_plots = list()
 
 fig1_data$data1 = read.csv("data1_viruses_bats_rodents.csv", stringsAsFactors = F)
-
-# For 1a ONLY these interfaces
-fig1_data$fig1a_Interfaces = c("dwellings",
-                               "raiding_crops",
-                               "guano_farm",
-                               "raiding_markets",
-                               "transit_along_valuechain",
-                               "private_sale",
-                               "for_sale_in_small_market",
-                               "medium_market",
-                               "large_markets",
-                               "zoo_sanctuary")
 
 # Wildlife-human interfaces with potential for close (direct) contact 
 # between humans and wildlife are labelled in bold in figures
@@ -122,7 +109,6 @@ fig1_data$fig1a_plot_prep = fig1_data$data1 %>%
     select(specimen_id, taxa_group, hunted:familytest_paramyxoviridae, -cr_flaviviridae, -familytest_flaviviridae) %>% 
     gather(key = AnimalHumanInterfaces, value = "InterfacePresent", c(hunted:raiding_livestock_food)) %>% 
     filter(InterfacePresent==1) %>% 
-    filter(AnimalHumanInterfaces %in% fig1_data$fig1a_Interfaces) %>% 
     mutate(cr_coronaviridae = ifelse(familytest_coronaviridae==0, NA, cr_coronaviridae),
            cr_orthomyxoviridae = ifelse(familytest_orthomyxoviridae==0, NA, cr_orthomyxoviridae),
            cr_paramyxoviridae = ifelse(familytest_paramyxoviridae==0, NA, cr_paramyxoviridae)) %>% 
@@ -130,38 +116,44 @@ fig1_data$fig1a_plot_prep = fig1_data$data1 %>%
     pivot_longer(cols = c(cr_coronaviridae, cr_orthomyxoviridae, cr_paramyxoviridae), 
                  names_to = "virus_family", values_to = "test_result") %>% 
     janitor::clean_names() %>% 
+    filter(!animal_human_interfaces %in% c("crop_production", "raiding_livestock_food")) %>% 
     mutate(virus_family = gsub("cr_","", virus_family),
            virus_family = str_to_sentence(gsub("idae", "uses", virus_family)),
            virus_family = gsub("Orthomyxoviruses", "Influenza Viruses", virus_family), 
            animal_human_interfaces = str_to_sentence(gsub("_"," ",animal_human_interfaces)),
            animal_human_interfaces = gsub("Large markets","For sale in large market",animal_human_interfaces),
+           animal_human_interfaces = gsub("Consumption","For consumption",animal_human_interfaces),
+           animal_human_interfaces = gsub("Tourism","Tourism site",animal_human_interfaces),
+           animal_human_interfaces = gsub("Wildlife management","Wildlife management site",animal_human_interfaces),
            animal_human_interfaces = gsub("Medium market","For sale in medium market",animal_human_interfaces),
            animal_human_interfaces = gsub("Zoo sanctuary","Sanctuary (or zoo)",animal_human_interfaces),
-           animal_human_interfaces = gsub("Transit along valuechain","In transit in trade supply chain",animal_human_interfaces),
-           animal_human_interfaces = gsub("Raiding markets","Raiding market",animal_human_interfaces)) %>% 
+           animal_human_interfaces = gsub("Transit along valuechain","In transit in trade supply chain",animal_human_interfaces)) %>%
     mutate(animal_human_interfaces = ifelse(animal_human_interfaces %in% fig1_data$bold, 
                                             paste0("**", animal_human_interfaces, "**"), 
                                             as.character(animal_human_interfaces))) %>% 
     mutate(animal_human_interfaces = factor(animal_human_interfaces, 
                                             levels = c("Dwellings",
                                                        "Raiding crops",
-                                                       "Raiding market",
+                                                       "Raiding markets",
+                                                       "Tourism site",
+                                                       "Wildlife management site",
                                                        "Guano farm",
+                                                       "**Hunted**",
+                                                       "**For consumption**",
                                                        "**Private sale**",
                                                        "**In transit in trade supply chain**",
                                                        "**For sale in small market**",
                                                        "**For sale in medium market**",
                                                        "**For sale in large market**",
-                                                       "**Sanctuary (or zoo)**"))) %>% 
+                                                       "**Sanctuary (or zoo)**"))) %>%
     group_by(animal_human_interfaces, taxa_group, virus_family) %>%
-    summarise(test_result = mean(test_result, na.rm = T), .groups = "drop") %>% 
+    summarise(test_result = mean(test_result, na.rm = T), n=n(), .groups = "drop") %>% 
     mutate(taxa_group = factor(taxa_group, levels = c("rodents & shrews", "bats")),
            virus_family = paste0("<b>", virus_family, taxa_subtitle),
            virus_family = factor(virus_family, levels = c(paste0("<b>", "Coronaviruses", taxa_subtitle),
                                                           paste0("<b>", "Paramyxoviruses", taxa_subtitle), 
                                                                  paste0("<b>", "Influenza Viruses", taxa_subtitle))),
            test_result = ifelse(test_result<0.001 & test_result!=0, 0.001, test_result)) # makes small non-zero percentages visible
-
 
 # Fig 1a Plot -------------------------------------------------------------
 
@@ -206,7 +198,7 @@ fig1_data$fig1b_plot_prep = fig1_data$fig1b_interfaces %>%
 # Fig 1b Plot -------------------------------------------------------------
 
 fig1_plots$plot_1b = ggplot(fig1_data$fig1b_plot_prep, aes(y = term2, x = odds.ratio)) +
-    geom_vline(lty=2, aes(xintercept=0), colour = 'gray', linewidth=0.25)+
+    geom_vline(lty=2, aes(xintercept=0), colour = 'gray50', linewidth=0.25)+
     geom_point(aes(fill = factor(fill_OR), color = factor(fill_OR)), size = 2, shape = 21) + 
     geom_segment(aes(x = conf.low, xend = conf.high, y = term2, yend = term2), 
                  colour = "black", linewidth=0.25) +
@@ -256,7 +248,7 @@ fig1_data$fig1c_plot_prep = fig1_data$fig1c_specimen_type %>%
 # Fig 1c Plot -------------------------------------------------------------
 
 fig1_plots$plot_1c = ggplot(fig1_data$fig1c_plot_prep, aes(y = term, x = odds.ratio)) +
-    geom_vline(lty=2, aes(xintercept=0), color = 'gray', linewidth=0.25) +
+    geom_vline(lty=2, aes(xintercept=0), color = 'gray50', linewidth=0.25) +
     geom_point(aes(fill = factor(fill_OR), color = factor(fill_OR)), size = 2, shape = 21) + 
     geom_segment(aes(x = conf.low, xend = conf.high, y = term, yend = term), 
                  color = "black", linewidth=0.25) +
@@ -322,7 +314,7 @@ fig1_data$fig1d_plot_prep = fig1_data$data2_model_ORs %>%
 # Fig 1d Plot -------------------------------------------------------------
 
 fig1_plots$plot_1d = ggplot(fig1_data$fig1d_plot_prep, aes(y = term, x = estimate)) +
-    geom_vline(lty=2, aes(xintercept=0), color = 'gray60', linewidth=0.25) +
+    geom_vline(lty=2, aes(xintercept=0), color = 'gray50', linewidth=0.25) +
     geom_point(aes(fill = factor(fill_OR), color = factor(fill_OR)), size = 2, shape = 21) + 
     geom_segment(aes(x = conf.low, xend = conf.high, y = term, yend = term), 
                  colour = "black", linewidth=0.25) +
@@ -363,20 +355,21 @@ library(grid)
 file_name = "plots/Final Figs/Fig1_2026_FINAL.pdf"
 
 w = 180 # 180 mm full page width, 88 mm half width
-h = 185 # Aim for 185 mm height
+h = 188 # Aim for 185 mm height
 d = 34
+r = 2.84
 
 plot_1a_std = fig1_plots$plot_1a + force_panelsizes(cols = unit(d+11.95, "mm"), # 3 cols only, whereas rest are 4 cols
-                                         rows = unit(10*3*1.2, "mm")) # 10 y-axis labels x2 bars
+                                         rows = unit(14*r, "mm")) # 14 y-axis labels x2 bars
 
 plot_1b_std = fig1_plots$plot_1b + force_panelsizes(cols = unit(d, "mm"),
-                                         rows = unit(14*2.9, "mm")) # 14 y-axis labels
+                                         rows = unit(14*r, "mm")) # 14 y-axis labels
 
 plot_1c_std = fig1_plots$plot_1c + force_panelsizes(cols = unit(d, "mm"),
-                                         rows = unit(5*2.9, "mm")) # 5 y-axis labels
+                                         rows = unit(5*r, "mm")) # 5 y-axis labels
 
 plot_1d_std = fig1_plots$plot_1d + force_panelsizes(cols = unit(d, "mm"),
-                                         rows = unit(8*2.9, "mm")) # 8 y-axis labels
+                                         rows = unit(8*r, "mm")) # 8 y-axis labels
 
 combined_fig1 = plot_1a_std / plot_1b_std / plot_1c_std / plot_1d_std 
 
@@ -388,67 +381,68 @@ pdf(file_name, width = w/25.4, height = h/25.4)
 grid.draw(patchworkGrob(combined_fig1))
 
 grid.text(
-    "ANIMAL-HUMAN INTERFACE",
-    x = unit(0.198, "npc"),
-    y = unit(0.961, "npc"),
-    just = c("right", "bottom"),
-    gp = gpar(fontsize = 6, col = "black", fontface = "bold")
-)
-
-grid.text(
-    "ANIMAL-HUMAN INTERFACE",
-    x = unit(0.198, "npc"),
-    y = unit(0.667, "npc"),
-    just = c("right", "bottom"),
-    gp = gpar(fontsize = 6, col = "black", fontface = "bold")
-)
-
-grid.text(
-    "SPECIMEN TYPE",
-    x = unit(0.198, "npc"),
-    y = unit(0.346, "npc"),
-    just = c("right", "bottom"),
-    gp = gpar(fontsize = 6, col = "black", fontface = "bold")
-)
-
-grid.text(
-    "HUMAN RISK FACTORS",
-    x = unit(0.198, "npc"),
-    y = unit(0.167, "npc"),
-    just = c("right", "bottom"),
-    gp = gpar(fontsize = 6, col = "black", fontface = "bold")
-)
-
-grid.text(
     "a",
-    x = unit(0.02, "npc"),
-    y = unit(0.980, "npc"),
+    x = unit(4, "mm"),
+    y = unit(184, "mm"),
     just = c("right", "bottom"),
     gp = gpar(fontsize = 7, col = "black", fontface = "bold")
+)
+
+grid.text(
+    "ANIMAL-HUMAN INTERFACE",
+    x = unit(35.6, "mm"),
+    y = unit(180.5, "mm"),
+    just = c("right", "bottom"),
+    gp = gpar(fontsize = 6, col = "black", fontface = "bold")
 )
 
 grid.text(
     "b",
-    x = unit(0.02, "npc"),
-    y = unit(0.687, "npc"),
+    x = unit(4, "mm"),
+    y = unit(126, "mm"),
     just = c("right", "bottom"),
     gp = gpar(fontsize = 7, col = "black", fontface = "bold")
+)
+
+grid.text(
+    "ANIMAL-HUMAN INTERFACE",
+    x = unit(35.6, "mm"),
+    y = unit(122.5, "mm"),
+    just = c("right", "bottom"),
+    gp = gpar(fontsize = 6, col = "black", fontface = "bold")
 )
 
 grid.text(
     "c",
-    x = unit(0.02, "npc"),
-    y = unit(0.367, "npc"),
+    x = unit(4, "mm"),
+    y = unit(67.5, "mm"),
     just = c("right", "bottom"),
     gp = gpar(fontsize = 7, col = "black", fontface = "bold")
 )
 
 grid.text(
+    "SPECIMEN TYPE",
+    x = unit(35.6, "mm"),
+    y = unit(64, "mm"),
+    just = c("right", "bottom"),
+    gp = gpar(fontsize = 6, col = "black", fontface = "bold")
+)
+
+grid.text(
     "d",
-    x = unit(0.02, "npc"),
-    y = unit(0.187, "npc"),
+    x = unit(4, "mm"),
+    y = unit(34.5, "mm"),
     just = c("right", "bottom"),
     gp = gpar(fontsize = 7, col = "black", fontface = "bold")
 )
+
+grid.text(
+    "HUMAN RISK FACTORS",
+    x = unit(35.6, "mm"),,
+    y = unit(31, "mm"),
+    just = c("right", "bottom"),
+    gp = gpar(fontsize = 6, col = "black", fontface = "bold")
+)
+
 
 dev.off()
