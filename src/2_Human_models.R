@@ -1,6 +1,6 @@
-# manuscript: Johnson et al. 2026. Large-scale One Health surveillance at 
-#             wildlife-human interfaces reveals virus  spillover risk in 
-#             the wildlife trade. Nature Microbiology.
+# manuscript: Johnson et al. 2026. Large-scale surveillance at 
+#             wildlife-human interfaces reveals virus spillover  
+#             risk in the wildlife trade. Nature Microbiology.
 # analysis: Fig. 1d Model-adjusted odds ratios for virus detection in people (GLMM)
 
 # Packages ---------------------------------------------------------------------
