@@ -12,7 +12,7 @@ This repository contains documentation and code used for the analyses and figure
 ```
 ├── LICENSE
 ├── README.md          <- The README for researchers using this repository.
-├── src                <- Source code for each analysis in the publication.
+├── src                <- Source code for analyses in the publication.
 ```
 
 ## Additional Ways to Explore Our Findings
