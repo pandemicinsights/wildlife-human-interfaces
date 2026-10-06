@@ -1,6 +1,7 @@
 # manuscript: Johnson et al. 2026. Large-scale surveillance at 
 #             wildlife-human interfaces reveals virus spillover  
-#             risk in the wildlife trade. Nature Microbiology.
+#             risk in wildlife markets and trade supply chains. 
+#             Nature Microbiology.
 # analysis: Fig. 1 Plots
 
 # Packages ---------------------------------------------------------------------
