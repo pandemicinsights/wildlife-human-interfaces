@@ -1,8 +1,8 @@
-# Large-scale One Health surveillance at wildlife-human interfaces reveals virus spillover risk in the wildlife trade
+# Large-scale surveillance at wildlife-human interfaces reveals virus spillover risk in wildlife markets and trade supply chains
 
 *Analysis code and supporting materials to reproduce the results and figures presented in an upcoming publication. Materials presented here should not be considered complete until the date of publication.* 
 
-This repository contains documentation and code used for the analyses and figures reported in **[Johnson et. al 2026, Large-scale surveillance at wildlife-human interfaces reveals virus spillover risk in the wildlife trade](https://www.nature.com/nmicrobiol/)**, published in Nature Microbiology. It is provided to facilitate reproducibility of the results described in the manuscript. 
+This repository contains documentation and code used for the analyses and figures reported in **[Johnson et. al 2026, Large-scale surveillance at wildlife-human interfaces reveals virus spillover risk in wildlife markets and trade supply chains](https://www.nature.com/nmicrobiol/)**, published in Nature Microbiology. It is provided to facilitate reproducibility of the results described in the manuscript. 
 
 **Please refer to the manuscript for study design, data collection, and interpretation of the findings.** 
 
