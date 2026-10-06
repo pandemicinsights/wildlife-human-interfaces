@@ -1,6 +1,7 @@
 # manuscript: Johnson et al. 2026. Large-scale surveillance at 
 #             wildlife-human interfaces reveals virus spillover  
-#             risk in the wildlife trade. Nature Microbiology.
+#             risk in wildlife markets and trade supply chains. 
+#             Nature Microbiology.
 # analysis: Infection prevalence among bats by preferred roost habitat
 
 # IUCN Redlist Data (v.2022-02) was used to determine bat cave use.
